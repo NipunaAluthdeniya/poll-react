@@ -1,14 +1,15 @@
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useState } from "react";
-import { getAllPolls } from "../../services/poll/poll";
+import { deletePollById, getMyPolls } from "../../services/poll/poll";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Backdrop, Box, Button, Card, CardActions, CardContent, CardHeader, CircularProgress, Grid, IconButton, MenuItem, Paper, Popover, Typography } from "@mui/material";
 import moment from "moment/moment";
 import { blue } from "@mui/material/colors";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
-const Dashboard = () => {
+const ViewMyPolls = () => {
   const [polls, setPolls] = useState([]);
   const [loading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -20,7 +21,7 @@ const Dashboard = () => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await getAllPolls();
+      const response = await getMyPolls();
       if (response.status === 200) {
         setPolls(response.data);
       }
@@ -37,6 +38,25 @@ const Dashboard = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleDeletePoll = async (pollId) => {
+    setLoading(true);
+    try {
+      await deletePollById(pollId);
+      enqueueSnackbar(`Poll deleted successfully`, {
+        variant: "success",
+        autoHideDuration: 5000,
+      });
+      fetchData();
+    } catch (error) {
+      enqueueSnackbar("Getting error while deleting poll!", {
+        variant: "error",
+        autoHideDuration: 5000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePopoverOpen = (event, poll) => {
     setAnchorEl(event.currentTarget);
@@ -105,6 +125,9 @@ const Dashboard = () => {
                                         <MenuItem onClick={() => navigate(`/poll/${poll.id}/view`)}>
                                           <RemoveRedEyeIcon />
                                         </MenuItem>
+                                        <MenuItem sx={{ color: "red" }} onClick={() => handleDeletePoll(poll.id)}>
+                                          <DeleteOutlineIcon />
+                                        </MenuItem>
                                       </Box>
                                     </Popover>
                                   </>
@@ -158,6 +181,7 @@ const Dashboard = () => {
       </Backdrop>
     </>
   );
+
 };
 
-export default Dashboard;
+export default ViewMyPolls;

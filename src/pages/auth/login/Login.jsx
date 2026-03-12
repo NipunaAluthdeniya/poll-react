@@ -33,7 +33,7 @@ const Login = () => {
                 const response = await login(formData);
                 if(response.status === 200) {
                     const responseData = response.data;
-                    saveToken(responseData.token);
+                    saveToken(responseData.jwtToken);
                     navigate('/dashboard');
                     enqueueSnackbar(`Welcome ${responseData.name}`, { variant: 'success', autoHideDuration: 5000 });
                 }

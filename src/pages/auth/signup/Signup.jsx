@@ -35,7 +35,7 @@ const Signup = () => {
             const response = await signup(formData);
             if(response.status === 201) {
                 const responseData = response.data;
-                saveToken(responseData.token);
+                saveToken(responseData.jwtToken);
                 navigate('/dashboard');
                 enqueueSnackbar(`Welcome ${responseData.name}`, { variant: 'success', autoHideDuration: 5000 });
             }
