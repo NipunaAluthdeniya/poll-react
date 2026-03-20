@@ -35,3 +35,43 @@ export const deletePollById = async (id) => {
         throw error;
     }
 };
+
+export const getPollById = async (pollId) => {
+    try {
+        const response = await axiosInstance.get(`api/user/poll/${pollId}`);
+        return response;
+    } catch (error) {
+        console.error("Error while getting poll:", error);
+        throw error;
+    }   
+};
+
+export const giveLikeToPoll = async (pollId) => {
+    try {
+        const response = await axiosInstance.get(`api/user/poll/like/${pollId}`);
+        return response;
+    } catch (error) {
+        console.error("Error while adding like:", error);
+        throw error;
+    }   
+};
+
+export const postCommentOnPoll = async (commentDTO) => {
+    try {
+        const response = await axiosInstance.post(`api/user/poll/comment`, commentDTO);
+        return response;
+    } catch (error) {
+        console.error("Error while posting comment:", error);
+        throw error;
+    }   
+};
+
+export const postVoteOnPoll = async (obj) => {
+    try {
+        const response = await axiosInstance.post(`api/user/poll/vote`, obj);
+        return response;
+    } catch (error) {
+        console.error("Error while posting vote:", error);
+        throw error;
+    }   
+};
