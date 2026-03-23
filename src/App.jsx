@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Header from './pages/header/Header'
 import Login from './pages/auth/login/Login'
 import Signup from './pages/auth/signup/Signup'
@@ -13,12 +13,14 @@ function App() {
     <>
      <Header />
      <Routes>
+      <Route path='/' element={<Navigate to='/register' replace />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Signup />} />
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/poll/create' element={<CreatePoll />} />
       <Route path='/my-polls' element={<ViewMyPolls />} />
       <Route path='/poll/:id/:view' element={<ViewPollDetails />} />
+      <Route path='*' element={<Navigate to='/register' replace />} />
      </Routes>
     </>
   )
