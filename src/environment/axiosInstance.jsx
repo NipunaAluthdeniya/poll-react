@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../utility/common';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: 'https://poll-app-deployment-latest.onrender.com',
 });
 
 instance.interceptors.request.use(
